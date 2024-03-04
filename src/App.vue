@@ -1,7 +1,10 @@
 <template>
   <div>
+    
  <navbar/>
  <MapView/>
+
+
  
 </div>
  
@@ -14,11 +17,15 @@ import MapView from './components/MapView.vue'
 import navbar from './components/app-navbar.vue'
 
 
+
+
 export default {
   name: 'App',
   components: {
     MapView,
     navbar,
+    
+   
     
   }
 }

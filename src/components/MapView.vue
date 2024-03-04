@@ -1,7 +1,13 @@
 <template>
   <div>
-    <directionscard :steps="this.steps" />
+    <indoorPopup/>
+  <directionscard :steps="this.steps" />
+  <indoorPopup/>
+  <button class="LocationBtn" @click="getCurrentLocation">📍 Use Current Location</button>
+
+
   <div id="map" />
+  
   </div>
 </template>
 
@@ -15,8 +21,11 @@ import { Threebox } from 'threebox-plugin';
 import * as THREE from 'three';
 
 import directionscard from './directions-card.vue'
+import indoorPopup from './IndoorPopUp.vue'
 
-const start =[-113.5250, 53.5262];
+
+
+
 
 
 
@@ -26,19 +35,143 @@ export default{
         name: 'MapView', 
         components: {
                 directionscard,
-        },
-        mounted(){
-                this.intiliazeMap();    
+                indoorPopup,
                 
         },
         data(){
                 return{
                         steps: [],
+                        
                 }
         },
+
+          mounted() {
+    if (navigator.geolocation) {
+      this.watchID = navigator.geolocation.watchPosition(
+        (position) => {
+          const currentLocation = [position.coords.longitude, position.coords.latitude];
+          if (!this.startLocation) {
+            this.startLocation = currentLocation;
+            this.intiliazeMap(currentLocation); // Initialize the map with the current location
+          } else {
+            this.updateCurrentLocationIndicator(currentLocation); // Update the location indicator on the map
+          }
+        },
+        () => {
+          if (!this.startLocation) {
+            this.intiliazeMap(); // Initialize with default location if permission denied or an error occurs
+          }
+          console.log("Unable to retrieve your location.");
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+      if (!this.startLocation) {
+        this.intiliazeMap(); // Initialize with default location if geolocation is not supported
+      }
+    }
+  },
+  beforeUnmount() {
+    if (navigator.geolocation && this.watchID) {
+      navigator.geolocation.clearWatch(this.watchID);
+    }
+  },
+        
         
         methods: {
-        intiliazeMap(){
+          getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const currentLocation = [position.coords.longitude, position.coords.latitude];
+          this.map.flyTo({
+            center: currentLocation,
+            essential: true, 
+            zoom: 18.5,
+          });
+
+          
+          this.startLocation = currentLocation;
+         
+          if (this.map.getSource('start')) {
+            this.map.getSource('start').setData({
+              type: 'FeatureCollection',
+              features: [{
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: currentLocation,
+                },
+              }],
+            });
+          }
+        },
+        () => {
+          alert("Unable to retrieve your location");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  },
+          initializeGeocoder(accessToken) {
+    this.map.addControl(
+      new MapboxGeocoder({
+        accessToken: accessToken,
+        mapboxgl: mapboxgl,
+        proximity: {
+          longitude: -122.25948,
+          latitude: 37.87221
+        },
+        trackProximity: true,
+        container: "search-navbar", // This targets the input element in AppNavbar.vue
+      })
+    );
+  },
+  updateCurrentLocationIndicator(currentLocation) {
+
+    if (this.map.getSource('current-location')) {
+        this.map.getSource('current-location').setData({
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: currentLocation,
+            },
+          }],
+        });
+      } else {
+        this.map.addSource('current-location', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: currentLocation,
+              },
+            }],
+          },
+        });
+
+        this.map.addLayer({
+          id: 'current-location',
+          type: 'circle',
+          source: 'current-location',
+          paint: {
+            'circle-radius': 10,
+            'circle-color': '#007cbf',
+          },
+        });
+      }
+    },
+        
+  
+
+        intiliazeMap(start = [-113.5250, 53.5262]){
         mapboxgl.accessToken = accessToken;
 
         this.map = new mapboxgl.Map({
@@ -51,6 +184,7 @@ export default{
         antialias: true
         
         });
+        
 
         //canvas for showing glb files
         const tb = (window.tb = new Threebox(
@@ -68,8 +202,8 @@ export default{
           (layer) => layer.type === 'symbol' && layer.layout['text-field']
         ).id;
 
-        
-          console.log('style loaded');  
+        this.initializeGeocoder(accessToken);
+          
         this.map.addLayer({
         id: 'custom-threebox-model',
         type: 'custom',
@@ -97,7 +231,7 @@ export default{
         let directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
         tb.add(ambientLight);
         tb.add(directionalLight);
-        console.log(model);
+       
         tb.add(model);
         });
         },
@@ -105,9 +239,47 @@ export default{
         render: function () {
         tb.update();
         }
+
+          
         });
         
 
+        this.map.loadImage(
+        'https://cdn-icons-png.flaticon.com/512/1432/1432525.png',
+          (error, image) => {
+            if (error) throw error;
+            this.map.addImage('custom-marker', image);
+            this.map.addSource('points', {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: [
+                  {
+                    type: 'Feature',
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [-113.5266, 53.52671]
+                    }
+                  }
+                ]
+              }
+            });
+            this.map.addLayer({
+              id: 'enteryToAthabascaHall',
+              type: 'symbol',
+              source: 'points',
+              layout: {
+                'icon-image': 'custom-marker',
+                'icon-allow-overlap': true,
+                'icon-size': 0.1
+              }
+            });
+          }
+        );
+        //on click enter
+        this.map.on('click', 'enteryToAthabascaHall', () => {
+          document.getElementById('indoorPopup').style.display = 'block';
+      });
         
 
         this.map.on('click', (event) => {
@@ -227,18 +399,6 @@ export default{
 
         
 
-        this.map.addControl(
-                new MapboxGeocoder({
-                accessToken: accessToken,
-                mapboxgl: mapboxgl,
-                proximity: {
-                longitude: -122.25948,
-                latitude: 37.87221
-                },
-                trackProximity: true
-                
-                })
-                );
         },
 
         
@@ -247,13 +407,13 @@ export default{
         
         async getRoute(end){
                 const query = await fetch(
-                `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+                `https://api.mapbox.com/directions/v5/mapbox/walking/${this.startLocation[0]},${this.startLocation[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
                 { method: 'GET' }
                 );
                 const json = await query.json();
                 const data = json.routes[0];
                 const steps = data.legs[0].steps;
-                console.log(steps);
+                //console.log(steps);
                 this.updateSteps(steps);
                 const route = data.geometry.coordinates;
                 const geojson = {
@@ -301,6 +461,41 @@ export default{
 </script>
 
 <style>
+
+.LocationBtn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
+  background-color: #007C41;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex; /* For icon and text alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  gap: 8px; /* Space between icon and text */
+}
+
+.LocationBtn:hover {
+  background-color: #005a2e; /* Darker shade for hover effect */
+}
+
+
+@media (max-width: 600px) {
+  .LocationBtn {
+    right: 10px; /* Closer to the edge on smaller screens */
+    bottom: 10px;
+    width: 30%;
+    padding: 8px 16px; /* Slightly smaller padding */
+    font-size: 14px; /* Smaller font size */
+    gap: 5px; /* Less gap between icon and text */
+  }
+}
 
 #map {
   position: absolute;
