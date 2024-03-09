@@ -1,9 +1,13 @@
 <template>
   <div>
-    <indoorPopup/>
-  <directionscard :steps="this.steps" />
+    <indoorPopup
+    @directions-updated="handleDirectionsUpdated" 
+    @AthbascaCoords="handleAthabascaCoords"
+    @getCurrentLocation="handleCurrentLocation"/>
+  <directionscard :steps="this.steps" :indoorSteps="indoorSteps" />
   <indoorPopup/>
-  <button class="LocationBtn" @click="getCurrentLocation">📍 Use Current Location</button>
+  <button class="LocationBtn" @click="getCurrentLocation">📍</button>
+  <button class="GoButton" @click="GoFunction"> Go! </button>
 
 
   <div id="map" />
@@ -40,7 +44,8 @@ export default{
         },
         data(){
                 return{
-                        steps: [],
+                  steps: [],
+                  indoorSteps: [],
                         
                 }
         },
@@ -80,7 +85,61 @@ export default{
         
         
         methods: {
-          getCurrentLocation() {
+        GoFunction(){
+          document.getElementById('indoorPopup').style.display = 'block';
+          this.getCurrentLocation();
+        },
+
+      handleDirectionsUpdated(directions) {
+      
+      console.log('Received directions:', directions);
+      this.indoorSteps = directions;
+      
+    },
+
+
+    // Handle the AthbascaCoords event
+    handleAthabascaCoords(AthabascaLocation) {
+      console.log('Received AthabascaLocation:', AthabascaLocation);
+      this.map.addLayer({
+      id: 'end',
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'Point',
+                coordinates: AthabascaLocation
+              }
+            }
+          ]
+        }
+      },
+      paint: {
+        'circle-radius': 10,
+        'circle-color': '#f30'
+      }
+    });
+
+      this.getRoute(AthabascaLocation);
+    },
+
+    handleCurrentLocation() {
+      console.log('Received current location');
+      this.map.flyTo({
+        center: this.startLocation,
+        essential: true,
+        zoom: 18.5,
+      });
+    },
+
+         
+    getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -91,9 +150,6 @@ export default{
             zoom: 18.5,
           });
 
-          
-          this.startLocation = currentLocation;
-         
           if (this.map.getSource('start')) {
             this.map.getSource('start').setData({
               type: 'FeatureCollection',
@@ -106,6 +162,7 @@ export default{
               }],
             });
           }
+          this.startLocation = currentLocation;
         },
         () => {
           alert("Unable to retrieve your location");
@@ -162,7 +219,7 @@ export default{
           type: 'circle',
           source: 'current-location',
           paint: {
-            'circle-radius': 10,
+            'circle-radius': 13,
             'circle-color': '#007cbf',
           },
         });
@@ -202,7 +259,7 @@ export default{
           (layer) => layer.type === 'symbol' && layer.layout['text-field']
         ).id;
 
-        this.initializeGeocoder(accessToken);
+        
           
         this.map.addLayer({
         id: 'custom-threebox-model',
@@ -264,26 +321,16 @@ export default{
                 ]
               }
             });
-            this.map.addLayer({
-              id: 'enteryToAthabascaHall',
-              type: 'symbol',
-              source: 'points',
-              layout: {
-                'icon-image': 'custom-marker',
-                'icon-allow-overlap': true,
-                'icon-size': 0.1
-              }
-            });
+            
           }
         );
         //on click enter
-        this.map.on('click', 'enteryToAthabascaHall', () => {
-          document.getElementById('indoorPopup').style.display = 'block';
-      });
+        
         
 
         this.map.on('click', (event) => {
         const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
+        console.log(coords);
         const end = {
     type: 'FeatureCollection',
     features: [
@@ -451,6 +498,10 @@ export default{
                
         },
         updateSteps(steps){
+            
+         
+          
+          
             this.steps = steps;
         }
         
@@ -460,16 +511,21 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
+
+.GoButton:hover .LocationBtn:hover {
+  background-color: #fffb00; /* Darker green on hover */
+  color:black;
+}
+
 
 .LocationBtn {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  z-index: 1;
   background-color: #007C41;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border: none;
   border-radius: 30px; /* Rounded corners */
   cursor: pointer;
@@ -478,22 +534,40 @@ export default{
   display: flex; /* For icon and text alignment */
   align-items: center; /* Center items vertically */
   justify-content: center; /* Center items horizontally */
-  gap: 8px; /* Space between icon and text */
+  
+   z-index: 1;
 }
 
-.LocationBtn:hover {
-  background-color: #005a2e; /* Darker shade for hover effect */
+.GoButton {
+  position: absolute;
+  bottom: 10px;
+  right: 70px;
+  background-color: #007C41;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 30px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex; /* For icon and text alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+   /* Space between icon and text */
 }
+
+
+
 
 
 @media (max-width: 600px) {
   .LocationBtn {
     right: 10px; /* Closer to the edge on smaller screens */
     bottom: 10px;
-    width: 30%;
-    padding: 8px 16px; /* Slightly smaller padding */
+    font-size: large;
+    padding: 10px; /* Slightly smaller padding */
     font-size: 14px; /* Smaller font size */
-    gap: 5px; /* Less gap between icon and text */
+    /* Less gap between icon and text */
   }
 }
 

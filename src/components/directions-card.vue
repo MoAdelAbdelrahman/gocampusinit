@@ -1,8 +1,16 @@
 <template>
   <div class='mainDiv'>
-      <ul>
+      <ul class ='outdoorInstructions'>
           <li v-for="(step, index) in steps" :key="index">{{ step.maneuver.instruction }}</li>
       </ul>
+      
+    
+      
+      <ul class='IndoorInstructions'>
+  <li v-for="(step, index) in indoorSteps" :key="index">
+    From {{ step.FirstNode }}, go {{ step.RelativeDirection }} to {{ step.SecondNode }}.
+  </li>
+</ul>
   </div>
 </template>
 
@@ -11,10 +19,10 @@ export default {
   name: 'directions-card',
   props: {
     steps: Array,  
+    indoorSteps: Array,
   },
 }
 </script>
-
 <style scoped>
 .mainDiv {
   position: fixed;
@@ -24,24 +32,37 @@ export default {
   height: 300px;
   overflow: auto;
   padding: 20px;
-  background-color: #fff; /* Consider a light background for the content to ensure readability */
-  border: 2px solid #007C41; /* UofA green for border */
+  background-color: #fff; /* Light background for readability */
+  border: 2px solid #53655c; /* UofA green for border */
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   font-family: sans-serif;
-}
+} 
 
-.mainDiv ul {
+/* Styling for indoor instructions */
+.IndoorInstructions {
+  background-color: #EBF5EB; /* Slightly lighter UofA green variant for background */
   list-style-type: none;
   padding: 0;
   margin: 0;
   height: 100%;
   overflow-y: auto;
+  height: fit-content;
 }
 
-.mainDiv li {
+/* Styling for outdoor instructions */
+.outdoorInstructions {
+  background-color: rgb(209, 235, 233); /* A different, light UofA themed color */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  height: fit-content;
+  overflow-y: auto;
+}
+
+.outdoorInstructions li, .IndoorInstructions li {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #dddddd;
   font-size: 14px;
   transition: background-color 0.3s;
 }
@@ -63,8 +84,8 @@ export default {
 
 @media (max-width: 480px) {
   .mainDiv {
-    width: 200px;
-    height: 200px;
+    width: 230px;
+    height: 290px;
     left: 5px;
     bottom: 5px;
     padding: 15px;
@@ -75,4 +96,5 @@ export default {
   }
 }
 </style>
+
 
