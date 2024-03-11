@@ -59,6 +59,8 @@ export default{
             this.startLocation = currentLocation;
             this.intiliazeMap(currentLocation); // Initialize the map with the current location
           } else {
+            console.log('Updating current location');
+            console.log(currentLocation);
             this.updateCurrentLocationIndicator(currentLocation); // Update the location indicator on the map
           }
         },

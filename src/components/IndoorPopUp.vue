@@ -105,7 +105,7 @@ export default {
 
             try {
                 to = document.getElementById('dest').value; // Assign the value of 'to'
-                const url = `http://localhost:3000/getPathFromEntry?mUri=${to}`;
+                const url = `http://192.168.0.40:3000/getPathFromEntry?mUri=${to}`;
 
                 const response = await fetch(url);
                 this.AthabascaLocation = [-113.52639120070329, 53.526704019665004];
