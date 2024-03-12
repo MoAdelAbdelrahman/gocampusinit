@@ -1,8 +1,8 @@
 <template>
   <nav class="bg-green-900 shadow-lg">
     <div class="max-w-screen-xl mx-auto flex items-center justify-between p-4 text-white">
-      <a href="https://flowbite.com/" class="flex items-center">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" />
+      <a href="https://gocampusinit.vercel.app/" class="flex items-center">
+        <img src="/logo.png" class="h-8 mr-3" alt="GoCampus Logo" />
         <span class="text-2xl font-semibold">GoCampus</span>
       </a>
       <div class="flex items-center">
