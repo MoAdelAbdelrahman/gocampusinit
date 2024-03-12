@@ -375,6 +375,7 @@ export default{
       }
     });
   }
+  this.indoorSteps = [];
   this.getRoute(coords);
 });
 
