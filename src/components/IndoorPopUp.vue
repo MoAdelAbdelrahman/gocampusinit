@@ -97,7 +97,7 @@ export default {
 
             
         },
-
+ 
 
         async getIndoorDirections(event) {
             event.preventDefault();
