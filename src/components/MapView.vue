@@ -9,6 +9,7 @@
     <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Show Full Instructions </button>
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
+    <guide-card v-if="showGuide" :guide_arr="this.displayedSteps" />
 
 
     <div id="map" />
@@ -27,6 +28,7 @@ import * as THREE from 'three';
 
 import directionscard from './directions-card.vue'
 import indoorPopup from './IndoorPopUp.vue'
+import GuideCard from './guide-card.vue';
 
 
 
@@ -41,6 +43,7 @@ export default {
   components: {
     directionscard,
     indoorPopup,
+    GuideCard,
 
   },
   data() {
@@ -52,6 +55,7 @@ export default {
       showFullInstructions: false,
       btnShow: true,
       showIndoorCard: false,
+      showGuide: false,
 
     }
   },
@@ -96,6 +100,7 @@ export default {
   methods: {
     GoFunction() {
       document.getElementById('indoorPopup').style.display = 'block';
+      this.showGuide = true;
       this.getCurrentLocation();
     },
     showIndoor() {
@@ -129,7 +134,7 @@ export default {
 
 
     updateDisplayedInstructions() {
-      
+      console.log('updating displayed instructions');
       console.log('steps' + this.steps);
       const updatedSteps = this.steps.slice(this.currentInstructionIndex, this.currentInstructionIndex + 2);
       console.log(updatedSteps);
@@ -162,6 +167,7 @@ export default {
     handleDirectionsUpdated(directions) {
 
       console.log('Received directions:', directions);
+      this.displayedSteps = this.updateDisplayedInstructions(directions);
       this.indoorSteps = directions;
 
     },
