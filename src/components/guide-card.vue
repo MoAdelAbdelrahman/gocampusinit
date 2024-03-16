@@ -27,9 +27,21 @@
         showGuide: false,
       };
     },
-    mounted () {
-    
-    },
+    mounted() {
+  
+ 
+
+  this.initializeGuide();
+},
+
+methods: {
+  initializeGuide() {
+    // Placeholder for initialization logic
+    if (this.guide_arr.length > 0) {
+      this.showGuide = true; 
+    }
+  }
+}
   };
   </script>
   

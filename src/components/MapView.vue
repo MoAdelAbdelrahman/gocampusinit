@@ -71,8 +71,9 @@ export default {
           } else {
             console.log('Updating current location');
             console.log(currentLocation);
+            this.findNearestStep(currentLocation);
             this.updateCurrentLocationIndicator(currentLocation);
-            this.updateDisplayedInstructions(currentLocation) // Update the location indicator on the map
+            this.updateDisplayedInstructions() // Update the location indicator on the map
           }
         },
         () => {
@@ -170,8 +171,6 @@ export default {
 
     handleDirectionsUpdated(directions) {
 
-      console.log('Received directions:', directions);
-      this.updateDisplayedInstructions();
       this.indoorSteps = directions;
 
     },
@@ -179,7 +178,7 @@ export default {
 
     // Handle the AthbascaCoords event
     handleAthabascaCoords(AthabascaLocation) {
-      console.log('Received AthabascaLocation:', AthabascaLocation);
+      
       this.map.addLayer({
         id: 'end',
         type: 'circle',
@@ -205,11 +204,13 @@ export default {
         }
       });
 
+
       this.getRoute(AthabascaLocation);
+     
     },
 
     handleCurrentLocation() {
-      console.log('Received current location');
+     
       this.map.flyTo({
         center: this.startLocation,
         essential: true,
@@ -236,8 +237,8 @@ export default {
 
 
     updateLocationAndSteps(currentLocation) {
-      this.findNearestStep(currentLocation);
-      this.updateDisplayedInstructions();
+      
+      
       this.map.center = currentLocation;
     },
 
@@ -571,10 +572,8 @@ export default {
     },
     updateSteps(steps) {
 
-
-
-
       this.steps = steps;
+      this.updateDisplayedInstructions();
     }
 
 
