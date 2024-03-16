@@ -2,11 +2,11 @@
     <div class="mainContainer">
       <div class="guideContainer">
         <div class="guide" >
-          <p> {{ guide_arr.length > 0 && guide_arr[0].maneuver ? guide_arr[0].maneuver.instruction : "No instructions available" }}</p>
+          <p> {{ guide_arr.length > 0 && guide_arr[0].maneuver ? guide_arr[0].maneuver.instruction : "' '" }}</p>
         </div>
         <div class="verticalLine"></div>
         <div class="guide" >
-          <p> {{ guide_arr.length > 1 && guide_arr[1].maneuver ? guide_arr[1].maneuver.instruction : "No instructions available" }}</p>
+          <p> {{ guide_arr.length > 1 && guide_arr[1].maneuver ? guide_arr[1].maneuver.instruction : " ' '" }}</p>
         </div>
       </div>
     </div>
@@ -28,8 +28,7 @@
       };
     },
     mounted () {
-    console.log('guide arr')
-      console.log(this.guide_arr)
+    
     },
   };
   </script>

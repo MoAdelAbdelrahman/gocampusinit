@@ -16,8 +16,8 @@
                                 <div
                                     class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                                     <form class="space-y-6" @submit="getIndoorDirections">
-                                        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Where do you want
-                                            to go?</h5>
+                                        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Where to?
+                                           </h5>
 
                                         <div>
                                             <multiselect v-model="value" :options="buildings"></multiselect>
@@ -115,7 +115,7 @@ export default {
             } catch (error) {
                 console.error('Error:', error);
             }
-
+            
             this.$emit('directions-updated', this.directions);
             this.$emit('AthbascaCoords', this.AthabascaLocation);
             this.$emit('getCurrentLocation', 'current');

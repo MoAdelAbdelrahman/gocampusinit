@@ -9,7 +9,7 @@
     <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Show Full Instructions </button>
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
-    <guide-card v-if="showGuide" :guide_arr="this.displayedSteps" />
+    <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
 
 
     <div id="map" />
@@ -67,7 +67,7 @@ export default {
           const currentLocation = [position.coords.longitude, position.coords.latitude];
           if (!this.startLocation) {
             this.startLocation = currentLocation;
-            this.intiliazeMap(currentLocation); // Initialize the map with the current location
+            this.intiliazeMap(); // Initialize the map with the current location
           } else {
             console.log('Updating current location');
             console.log(currentLocation);
@@ -113,10 +113,11 @@ export default {
     ToggleEnterBuilding() {
       this.showIndoorCard = !this.showIndoorCard;
     },
+    
     findNearestStep(currentLocation) {
       let nearestIndex = null;
       let shortestDistance = Infinity;
-
+      console.log('finding nearest step');
       this.steps.forEach((step, index) => {
         const stepLocation = step.maneuver.location;
         const distance = this.calculateDistance(currentLocation, stepLocation);
@@ -134,11 +135,14 @@ export default {
 
 
     updateDisplayedInstructions() {
-      console.log('updating displayed instructions');
-      console.log('steps' + this.steps);
-      const updatedSteps = this.steps.slice(this.currentInstructionIndex, this.currentInstructionIndex + 2);
-      console.log(updatedSteps);
-      this.displayedSteps = updatedSteps;
+      if (this.steps.length > 0 && this.currentInstructionIndex >= 0) {
+    console.log('Updating displayed instructions');
+    const updatedSteps = this.steps.slice(this.currentInstructionIndex, this.currentInstructionIndex + 2);
+    this.displayedSteps = updatedSteps;
+    console.log('Displayed steps updated:', this.displayedSteps);
+  } else {
+    console.log('No steps available or currentInstructionIndex is invalid');
+  }
 
     },
 
@@ -167,7 +171,7 @@ export default {
     handleDirectionsUpdated(directions) {
 
       console.log('Received directions:', directions);
-      this.displayedSteps = this.updateDisplayedInstructions(directions);
+      this.updateDisplayedInstructions();
       this.indoorSteps = directions;
 
     },
@@ -234,13 +238,7 @@ export default {
     updateLocationAndSteps(currentLocation) {
       this.findNearestStep(currentLocation);
       this.updateDisplayedInstructions();
-      if (this.map) {
-        this.map.flyTo({
-          center: currentLocation,
-          essential: true,
-          zoom: 18.5,
-        });
-      }
+      this.map.center = currentLocation;
     },
 
 
@@ -261,6 +259,7 @@ export default {
     updateCurrentLocationIndicator(currentLocation) {
 
       if (this.map.getSource('current-location')) {
+       
         this.map.getSource('current-location').setData({
           type: 'FeatureCollection',
           features: [{
