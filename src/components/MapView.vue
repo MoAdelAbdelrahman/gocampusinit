@@ -10,8 +10,9 @@
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
     <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
-
-
+    <button class="ARButton" @click="toggleAR"> Toggle AR </button>
+    <ARComp :showAr="this.showAR" :modelUrl="this.modelUrl"></ARComp>
+   
     <div id="map" />
 
   </div>
@@ -29,7 +30,7 @@ import * as THREE from 'three';
 import directionscard from './directions-card.vue'
 import indoorPopup from './IndoorPopUp.vue'
 import GuideCard from './guide-card.vue';
-
+import ARComp from './ARComp.vue';
 
 
 
@@ -44,6 +45,8 @@ export default {
     directionscard,
     indoorPopup,
     GuideCard,
+    ARComp,
+    
 
   },
   data() {
@@ -56,6 +59,8 @@ export default {
       btnShow: true,
       showIndoorCard: false,
       showGuide: false,
+      showAR: false,
+      modelUrl: '/3dmodels/Athabasca+Hall.glb'
 
     }
   },
@@ -99,6 +104,9 @@ export default {
 
 
   methods: {
+    toggleAR(){
+      this.showAR = !this.shoowAR;
+    },
     GoFunction() {
       document.getElementById('indoorPopup').style.display = 'block';
       this.showGuide = true;
@@ -657,6 +665,27 @@ export default {
  
   
 
+}
+.ARButton {
+  position: absolute;
+  bottom: 300px;
+  right: 70px;
+  background-color: #007C41;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 30px;
+  /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  /* For icon and text alignment */
+  align-items: center;
+  /* Center items vertically */
+  justify-content: center;
+  /* Center items horizontally */
+  /* Space between icon and text */
 }
 .GoButton {
   position: absolute;
