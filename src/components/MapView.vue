@@ -60,7 +60,7 @@ export default {
       showIndoorCard: false,
       showGuide: false,
       showAR: false,
-      modelUrl: '/3dmodels/Athabasca+Hall.glb'
+      modelUrl: './3dmodels/Athabasca+Hall.glb'
 
     }
   },

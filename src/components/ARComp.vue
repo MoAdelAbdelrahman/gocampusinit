@@ -1,14 +1,15 @@
 <template>
   <div v-if="showAr" class="ar-container">
-    <a-scene embedded arjs>
-      <a-marker preset="hiro">
-        <a-entity
-          :gltf-model="`url(${modelUrl})`"
-          scale="0.5 0.5 0.5"
-          position="0 0 0"
-        ></a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
+    <a-scene embedded>
+      <a-assets>
+        <a-asset-item id="model" src="./3dmodels/Athabasca+Hall.glb"></a-asset-item>
+      </a-assets>
+      <a-entity
+        gltf-model="#model"
+        scale="0.5 0.5 0.5"
+        position="0 2 -3"
+      ></a-entity>
+      <a-camera></a-camera>
     </a-scene>
   </div>
 </template>
@@ -17,14 +18,10 @@
 export default {
   name: 'ARComp',
   props: {
-    modelUrl: {
-      type: String,
-      required: true
-    },
     showAr: {
       type: Boolean,
       default: false
-    }
+    },
   }
 };
 </script>
