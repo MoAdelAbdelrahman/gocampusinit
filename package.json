@@ -8,7 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@google/model-viewer": "^3.5.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@mapbox/search-js-web": "^1.0.0-beta.18",
     "aframe": "^1.6.0",
