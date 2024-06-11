@@ -27,7 +27,7 @@ module.exports = defineConfig({
       .tap(options => {
         options.compilerOptions = {
           ...options.compilerOptions,
-          isCustomElement: tag => tag.startsWith('a-')
+          isCustomElement: tag => tag === 'model-viewer' || tag.startsWith('a-')
         };
         return options;
       });

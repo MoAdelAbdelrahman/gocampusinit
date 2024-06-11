@@ -11,7 +11,7 @@
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
     <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
     <button class="ARButton" @click="toggleAR"> Toggle AR </button>
-    <ARComp :showAr="this.showAR" :modelUrl="this.modelUrl"></ARComp>
+    <AR v-if="showAR"  />
    
     <div id="map" />
 
@@ -30,7 +30,8 @@ import * as THREE from 'three';
 import directionscard from './directions-card.vue'
 import indoorPopup from './IndoorPopUp.vue'
 import GuideCard from './guide-card.vue';
-import ARComp from './ARComp.vue';
+
+import AR from './ar-view.vue';
 
 
 
@@ -45,7 +46,8 @@ export default {
     directionscard,
     indoorPopup,
     GuideCard,
-    ARComp,
+    AR,
+   
     
 
   },
@@ -105,7 +107,8 @@ export default {
 
   methods: {
     toggleAR(){
-      this.showAR = !this.shoowAR;
+      this.showAR = !this.showAR;
+      console.log('AR toggled');
     },
     GoFunction() {
       document.getElementById('indoorPopup').style.display = 'block';
@@ -668,16 +671,16 @@ export default {
 }
 .ARButton {
   position: absolute;
-  bottom: 300px;
-  right: 70px;
+  bottom: 80px;
+  left: 80px;
   background-color: #007C41;
   color: white;
-  padding: 15px 15px;
+  padding: 10px 10px;
   border: none;
   border-radius: 30px;
   /* Rounded corners */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
   display: flex;
   /* For icon and text alignment */
@@ -732,6 +735,6 @@ export default {
   top: 60px;
   bottom: 0;
   width: 100%;
-  z-index: -99;
+  z-index: -1;
 }
 </style>
