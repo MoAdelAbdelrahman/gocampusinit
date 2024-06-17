@@ -62,8 +62,7 @@ export default {
       showIndoorCard: false,
       showGuide: false,
       showAR: false,
-      modelUrl: './3dmodels/Athabasca+Hall.glb'
-
+     
     }
   },
 
@@ -352,7 +351,7 @@ export default {
 
             const scale = 1;
             const options = {
-              obj: '/3dmodels/Athabasca+Hall.glb',
+              obj: './3dmodels/Athabasca+Hall.glb',
 
               type: 'glb',
               scale: { x: scale * 1.5, y: scale * 1.5, z: scale },
@@ -687,6 +686,7 @@ export default {
   align-items: center;
   /* Center items vertically */
   justify-content: center;
+  z-index: 100;
   /* Center items horizontally */
   /* Space between icon and text */
 }

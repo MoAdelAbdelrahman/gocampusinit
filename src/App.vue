@@ -1,10 +1,13 @@
 <template>
   <div>
     
- <navbar/>
- <MapView/>
+    <nav>
+    
+    <RouterLink to="/ar">Go to AR</RouterLink>
+  </nav>
 
-
+<RouterView/>
+ 
  
 </div>
  
@@ -13,8 +16,9 @@
 
 
 <script>
-import MapView from './components/MapView.vue'
-import navbar from './components/app-navbar.vue'
+
+
+
 
 
 
@@ -22,8 +26,8 @@ import navbar from './components/app-navbar.vue'
 export default {
   name: 'App',
   components: {
-    MapView,
-    navbar,
+    
+   
     
    
     
@@ -33,5 +37,6 @@ export default {
 </script>
 
 <style>
+
 
 </style>

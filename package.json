@@ -26,6 +26,7 @@
     "vue": "^3.2.13",
     "vue-model-viewer": "^1.0.8",
     "vue-multiselect": "^3.0.0-beta.3",
+    "vue-router": "^4.3.3",
     "vuetify": "^3.5.4",
     "vuexr": "^0.5.3"
   },
