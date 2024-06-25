@@ -2,7 +2,7 @@
   <div class="model-container">
     <model-viewer
       ref="modelViewer"
-      src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+      src='./3dmodels/untitled1.glb'
       alt="A 3D model of an astronaut"
       auto-rotate="true"
       camera-controls
