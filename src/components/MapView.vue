@@ -10,8 +10,7 @@
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
     <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
-    <button class="ARButton" @click="toggleAR"> Toggle AR </button>
-    <AR v-if="showAR"  />
+   
    
     <div id="map" />
 
@@ -359,7 +358,7 @@ export default {
               rotation: { x: 90, y: -178, z: 0 },
               defaultLights: false,
 
-            };
+            };  
 
             tb.loadObj(options, (model) => {
               model.setCoords([-113.5268, 53.5263777]);
@@ -668,28 +667,7 @@ export default {
   
 
 }
-.ARButton {
-  position: absolute;
-  bottom: 80px;
-  left: 80px;
-  background-color: #007C41;
-  color: white;
-  padding: 10px 10px;
-  border: none;
-  border-radius: 30px;
-  /* Rounded corners */
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  /* For icon and text alignment */
-  align-items: center;
-  /* Center items vertically */
-  justify-content: center;
-  z-index: 100;
-  /* Center items horizontally */
-  /* Space between icon and text */
-}
+
 .GoButton {
   position: absolute;
   bottom: 10px;
