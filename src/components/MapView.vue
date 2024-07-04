@@ -45,7 +45,7 @@ export default {
     directionscard,
     indoorPopup,
     GuideCard,
-    AR,
+    
    
     
 
