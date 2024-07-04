@@ -30,7 +30,7 @@ import directionscard from './directions-card.vue'
 import indoorPopup from './IndoorPopUp.vue'
 import GuideCard from './guide-card.vue';
 
-import AR from './ar-view.vue';
+
 
 
 
