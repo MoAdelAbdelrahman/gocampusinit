@@ -1,7 +1,7 @@
 <template>
     <div>
       
-   <navbar class="nav"/>
+  
   
    <mapView/>
   
@@ -16,7 +16,7 @@
   
   <script>
   
-  import navbar from './app-navbar.vue'
+
   import mapView from './MapView.vue'
   
   
@@ -27,7 +27,7 @@
     name: 'home-view',
     components: {
       mapView,
-      navbar,
+     
      
       
      
@@ -47,7 +47,7 @@
   
   .nav{
     position: absolute;
-    top: 20;
+    top: 2.5%;
     left: 0;
     right: 0;
    
@@ -59,7 +59,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: -1;
+    z-index: 0;
   }
   </style>
   

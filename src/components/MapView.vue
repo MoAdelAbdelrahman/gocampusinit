@@ -6,13 +6,12 @@
     <indoorPopup />
     <button class="LocationBtn" @click="getCurrentLocation">📍</button>
     <button class="GoButton" @click="GoFunction"> Go! </button>
-    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Show Full Instructions </button>
+    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Instructions </button>
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
     <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
-    <button class="ARButton" @click="toggleAR"> Toggle AR </button>
-    <ARComp :showAr="this.showAR" :modelUrl="this.modelUrl"></ARComp>
-   
+
+
     <div id="map" />
 
   </div>
@@ -30,7 +29,7 @@ import * as THREE from 'three';
 import directionscard from './directions-card.vue'
 import indoorPopup from './IndoorPopUp.vue'
 import GuideCard from './guide-card.vue';
-import ARComp from './ARComp.vue';
+
 
 
 
@@ -45,8 +44,6 @@ export default {
     directionscard,
     indoorPopup,
     GuideCard,
-    ARComp,
-    
 
   },
   data() {
@@ -59,8 +56,6 @@ export default {
       btnShow: true,
       showIndoorCard: false,
       showGuide: false,
-      showAR: false,
-      modelUrl: './3dmodels/Athabasca+Hall.glb'
 
     }
   },
@@ -104,9 +99,6 @@ export default {
 
 
   methods: {
-    toggleAR(){
-      this.showAR = !this.shoowAR;
-    },
     GoFunction() {
       document.getElementById('indoorPopup').style.display = 'block';
       this.showGuide = true;
@@ -591,142 +583,72 @@ export default {
 </script>
 
 <style scoped>
-.GoButton:hover .LocationBtn:hover {
-  background-color: #fffb00;
-  /* Darker green on hover */
-  color: black;
-}
-
-
-.LocationBtn {
+/* Modern Button Styling */
+.LocationBtn, .instructions, .enterBuilding, .GoButton {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007C41;
-  color: white;
-  font-size: larger;
-  padding: 10px 10px;
+  background-color: #007C41; /* UofA Green */
+  color: #FFFFFF;
+  padding: 12px 18px;
   border: none;
-  border-radius: 30px;
-  /* Rounded corners */
+  border-radius: 25px; /* Softer, rounded corners */
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   display: flex;
-  /* For icon and text alignment */
   align-items: center;
-  /* Center items vertically */
   justify-content: center;
-  /* Center items horizontally */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-  z-index: 1;
+/* Hover and Focus Effects */
+.LocationBtn:hover, .instructions:hover, .enterBuilding:hover, .GoButton:hover,
+.LocationBtn:focus, .instructions:focus, .enterBuilding:focus, .GoButton:focus {
+  background-color: #005a2e; /* Darker green on hover/focus */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Active State */
+.LocationBtn:active, .instructions:active, .enterBuilding:active, .GoButton:active {
+  background-color: #004320; /* Darker shade on click */
+  transform: translateY(1px); /* Small depress effect */
+}
+
+/* Positioning */
+.LocationBtn {
+  bottom: 20px;
+  right: 20px;
 }
 
 .instructions {
-  position: absolute;
   bottom: 20px;
   left: 10px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
- 
-  align-items: center;
-  
-  justify-content: center;
- 
-  
 }
 
-.enterBuilding{
-  position: absolute;
+.enterBuilding {
   bottom: 80px;
   right: 40px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
- 
-  align-items: center;
-  
-  justify-content: center;
- 
-  
+}
 
-}
-.ARButton {
-  position: absolute;
-  bottom: 300px;
-  right: 70px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  /* Rounded corners */
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  /* For icon and text alignment */
-  align-items: center;
-  /* Center items vertically */
-  justify-content: center;
-  /* Center items horizontally */
-  /* Space between icon and text */
-}
 .GoButton {
-  position: absolute;
   bottom: 10px;
   right: 70px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  /* Rounded corners */
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  /* For icon and text alignment */
-  align-items: center;
-  /* Center items vertically */
-  justify-content: center;
-  /* Center items horizontally */
-  /* Space between icon and text */
 }
 
-
-
-
-
+/* Mobile Responsiveness */
 @media (max-width: 600px) {
-  .LocationBtn {
-    right: 10px;
-    /* Closer to the edge on smaller screens */
-    bottom: 10px;
-    font-size: large;
-    padding: 15px;
-    /* Slightly smaller padding */
+  .LocationBtn, .instructions, .enterBuilding, .GoButton {
+    padding: 10px 15px;
     font-size: 14px;
-    /* Smaller font size */
-    /* Less gap between icon and text */
+  }
+
+  .LocationBtn {
+    bottom: 10px;
+    right: 10px;
   }
 }
 
+/* Map Styling */
 #map {
   position: absolute;
   top: 60px;
@@ -734,4 +656,5 @@ export default {
   width: 100%;
   z-index: -99;
 }
+
 </style>
