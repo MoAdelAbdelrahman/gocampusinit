@@ -6,10 +6,10 @@
     <indoorPopup />
     <button class="LocationBtn" @click="getCurrentLocation">📍</button>
     <button class="GoButton" @click="GoFunction"> Go! </button>
-    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Instructions </button>
+    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Show Full Instructions </button>
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
-    <guide-card @click="toggleGuide" v-if="showGuide" :guide_arr="displayedSteps" />
+    <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
    
    
     <div id="map" />
@@ -109,10 +109,6 @@ export default {
       console.log('AR toggled');
     },
     GoFunction() {
-
-      const navbar = document.getElementById("navbar");
-      
-      if (navbar) navbar.style.display = "none";
       document.getElementById('indoorPopup').style.display = 'block';
       this.showGuide = true;
       this.getCurrentLocation();
@@ -123,9 +119,6 @@ export default {
     toggleFullInstructions() {
       this.showFullInstructions = !this.showFullInstructions;
       this.btnShow = !this.btnShow;
-    },
-    toggleGuide() {
-      this.showGuide = !this.showGuide;
     },
     ToggleEnterBuilding() {
       this.showIndoorCard = !this.showIndoorCard;
@@ -610,96 +603,91 @@ export default {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  background-color: #388E3C; /* Updated to a brighter green */
+  background-color: #007C41;
   color: white;
+  font-size: larger;
   padding: 10px 10px;
   border: none;
   border-radius: 30px;
+  /* Rounded corners */
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   display: flex;
+  /* For icon and text alignment */
   align-items: center;
+  /* Center items vertically */
   justify-content: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  transition: background-color 0.3s ease;
-}
+  /* Center items horizontally */
 
-.LocationBtn:hover {
-  background-color: #2E7D32; /* Darker shade for hover */
+  z-index: 1;
 }
 
 .instructions {
   position: absolute;
-  bottom: 10px;
-  left: 5px;
-  background-color: #388E3C;
+  bottom: 20px;
+  left: 10px;
+  background-color: #007C41;
   color: white;
   padding: 15px 15px;
   border: none;
   border-radius: 30px;
+  
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   display: flex;
+ 
   align-items: center;
+  
   justify-content: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-  z-index: 1;
+ 
+  
 }
 
-.instructions:hover {
-  background-color: #2E7D32;
-}
-
-.enterBuilding {
+.enterBuilding{
   position: absolute;
   bottom: 80px;
   right: 40px;
-  background-color: #388E3C;
+  background-color: #007C41;
   color: white;
   padding: 15px 15px;
   border: none;
   border-radius: 30px;
+  
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   display: flex;
+ 
   align-items: center;
+  
   justify-content: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-  z-index: 1;
-}
+ 
+  
 
-.enterBuilding:hover {
-  background-color: #2E7D32;
 }
 
 .GoButton {
   position: absolute;
   bottom: 10px;
   right: 70px;
-  background-color: #388E3C;
+  background-color: #007C41;
   color: white;
   padding: 15px 15px;
   border: none;
   border-radius: 30px;
+  /* Rounded corners */
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   display: flex;
+  /* For icon and text alignment */
   align-items: center;
+  /* Center items vertically */
   justify-content: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-  z-index: 1;
-}
-
-.GoButton:hover {
-  background-color: #2E7D32;
+  /* Center items horizontally */
+  /* Space between icon and text */
 }
 
 
@@ -715,7 +703,6 @@ export default {
     padding: 15px;
     /* Slightly smaller padding */
     font-size: 14px;
-    z-index: 1;
     /* Smaller font size */
     /* Less gap between icon and text */
   }
@@ -726,6 +713,6 @@ export default {
   top: 60px;
   bottom: 0;
   width: 100%;
-  z-index: 0;
+  z-index: -1;
 }
 </style>
