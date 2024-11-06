@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <nav class="navbar">
-      <RouterLink to="/ar"> AR MODE</RouterLink>
-      <!-- Additional navigation links can be added here -->
-    </nav>
-    
     <!-- Main Content Area for Routes -->
     <div class="content-wrapper">
       <RouterView />
@@ -28,23 +23,9 @@ export default {
 
 #app {
   font-family: Arial, sans-serif;
-  height: 95vh; /* Full viewport height */
+  height: 100vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
-}
-
-.navbar {
-  background-color: #007C41; /* Navbar color */
-  padding: 5px;
-  margin: auto;
-  text-align: center;
-}
-
-.navbar a {
-  color: rgb(238, 238, 238);
-  text-decoration: none;
-  font-weight: bold;
-  padding: 5px 
 }
 
 .content-wrapper {

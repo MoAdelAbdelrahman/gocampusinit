@@ -651,7 +651,7 @@ export default {
 /* Map Styling */
 #map {
   position: absolute;
-  top: 60px;
+  top: 0px;
   bottom: 0;
   width: 100%;
   z-index: -99;
