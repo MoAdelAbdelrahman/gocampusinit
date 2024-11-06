@@ -647,6 +647,7 @@ export default {
   justify-content: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+  z-index: 1;
 }
 
 .instructions:hover {
@@ -670,6 +671,7 @@ export default {
   justify-content: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+  z-index: 1;
 }
 
 .enterBuilding:hover {
@@ -693,6 +695,7 @@ export default {
   justify-content: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+  z-index: 1;
 }
 
 .GoButton:hover {
@@ -712,6 +715,7 @@ export default {
     padding: 15px;
     /* Slightly smaller padding */
     font-size: 14px;
+    z-index: 1;
     /* Smaller font size */
     /* Less gap between icon and text */
   }
@@ -722,6 +726,6 @@ export default {
   top: 60px;
   bottom: 0;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
 }
 </style>
