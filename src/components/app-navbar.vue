@@ -1,4 +1,5 @@
 <template>
+  <div id ='navbar'>
   <nav class="bg-green-900 shadow-lg">
     <div class="max-w-screen-xl mx-auto flex items-center justify-between p-4 text-white">
       <a href="https://gocampusinit.vercel.app/" class="flex items-center">
@@ -17,6 +18,7 @@
       </div>
     </div>
   </nav>
+</div>
 </template>
 
 

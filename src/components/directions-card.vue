@@ -24,6 +24,9 @@ export default {
 }
 </script>
 <style scoped>
+
+
+/* Main container for overall layout */
 .mainDiv {
   position: fixed;
   left: 20px;
@@ -32,47 +35,53 @@ export default {
   height: 300px;
   overflow: auto;
   padding: 20px;
-  background-color: #fff; /* Light background for readability */
-  border: 2px solid #53655c; /* UofA green for border */
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  font-family: sans-serif;
-} 
+  background-color: #ffffff; /* Light background for readability */
+  border-radius: 20px;
+  border: 1px solid #A1B5A1; /* Softer green border */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Elevated shadow effect */
+  font-family: 'Poppins', sans-serif; /* Clean, modern font */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect to add a slight lift */
+.mainDiv:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); /* Stronger shadow on hover */
+}
 
 /* Styling for indoor instructions */
-.IndoorInstructions {
-  background-color: #EBF5EB; /* Slightly lighter UofA green variant for background */
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  overflow-y: auto;
-  height: fit-content;
-}
-
-/* Styling for outdoor instructions */
+.IndoorInstructions,
 .outdoorInstructions {
-  background-color: rgb(209, 235, 233); /* A different, light UofA themed color */
+  background-color: #f9f9f9; /* Clean, soft light gray background */
   list-style-type: none;
-  padding: 0;
+  padding: 10px; /* Added padding to create space around instructions */
   margin: 0;
-  height: fit-content;
+  border-radius: 10px;
   overflow-y: auto;
 }
 
-.outdoorInstructions li, .IndoorInstructions li {
-  padding: 10px;
-  border-bottom: 1px solid #dddddd;
+/* Styling individual list items */
+.outdoorInstructions li,
+.IndoorInstructions li {
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 8px;
+  background-color: #ffffff; /* White background for each instruction */
+  color: #333333; /* Dark text for readability */
   font-size: 14px;
-  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow for individual instructions */
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.mainDiv li:hover {
-  background-color: #007C41; /* UofA green for hover effect */
-  color: #FFD200; /* UofA gold for text color on hover */
+/* Hover effect for list items */
+.outdoorInstructions li:hover,
+.IndoorInstructions li:hover {
+  background-color: #007C41; /* UofA green for hover */
+  color: #FFD200; /* UofA gold for text on hover */
   cursor: pointer;
 }
 
+/* Media query for smaller screens */
 @media (max-width: 768px) {
   .mainDiv {
     width: 250px;
@@ -95,6 +104,8 @@ export default {
     font-size: 12px;
   }
 }
+
+
 </style>
 
 

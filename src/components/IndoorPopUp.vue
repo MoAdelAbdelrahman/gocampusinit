@@ -4,9 +4,7 @@
             <div class="indoorPopup-content">
                 <span class="indoorPopup-close" @click="closePopup">&times;</span>
                 <div class="card">
-                    <div class="card-header">
-                        <h3>GoCampus!</h3>
-                    </div>
+                    
                     <div class="card-body">
                         <div class="custom-form">
 
