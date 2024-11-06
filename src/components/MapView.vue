@@ -583,6 +583,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* Modern Button Styling */
 .LocationBtn, .instructions, .enterBuilding, .GoButton {
   position: absolute;
@@ -615,23 +616,19 @@ export default {
 }
 
 /* Positioning */
-.LocationBtn {
-  bottom: 20px;
-  right: 20px;
-}
 
 .instructions {
-  bottom: 20px;
+  bottom: 60px;
   left: 10px;
 }
 
 .enterBuilding {
-  bottom: 80px;
+  bottom: 120px;
   right: 40px;
 }
 
 .GoButton {
-  bottom: 10px;
+  bottom: 60px;
   right: 70px;
 }
 
@@ -643,7 +640,7 @@ export default {
   }
 
   .LocationBtn {
-    bottom: 10px;
+    bottom: 60px;
     right: 10px;
   }
 }
