@@ -1,7 +1,7 @@
 <template>
     <div>
       
-   <navbar class="nav"/>
+   <navbar/>
   
    <mapView/>
   
@@ -45,12 +45,6 @@
   
   <style>
   
-  .nav{
-    position: absolute;
-    top: 20;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
+  
   </style>
   
