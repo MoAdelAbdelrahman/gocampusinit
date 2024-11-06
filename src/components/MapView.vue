@@ -6,13 +6,15 @@
     <indoorPopup />
     <button class="LocationBtn" @click="getCurrentLocation">📍</button>
     <button class="GoButton" @click="GoFunction"> Go! </button>
-    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Show Full Instructions </button>
+    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Instructions </button>
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
     <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
    
    
-    <div id="map" />
+    <div class="map-wrapper">
+    <div id="map"></div>
+  </div>
 
   </div>
 </template>
@@ -316,9 +318,9 @@ export default {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v12',
         center: [-113.5250, 53.5262],
-        zoom: 18.5,
-        pitch: 70,
-        bearing: -90,
+        zoom: 17.5,
+        pitch: 50,
+        bearing: -40,
         antialias: true
 
       });
@@ -592,127 +594,87 @@ export default {
 </script>
 
 <style scoped>
-.GoButton:hover .LocationBtn:hover {
-  background-color: #fffb00;
-  /* Darker green on hover */
-  color: black;
+/* Hover style applied to all buttons */
+.LocationBtn:hover,
+.GoButton:hover,
+.instructions:hover,
+.enterBuilding:hover {
+  background-color: #00c853;
+  color: white;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px); /* Slight lift effect */
+  transition: all 0.3s ease;
 }
 
+.LocationBtn,
+.GoButton,
+.instructions,
+.enterBuilding {
+  position: absolute;
+  background: linear-gradient(145deg, #008b40, #00692f); /* Modern gradient */
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
 
 .LocationBtn {
-  position: absolute;
   bottom: 20px;
   right: 20px;
-  background-color: #007C41;
-  color: white;
-  font-size: larger;
-  padding: 10px 10px;
-  border: none;
-  border-radius: 30px;
-  /* Rounded corners */
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  /* For icon and text alignment */
-  align-items: center;
-  /* Center items vertically */
-  justify-content: center;
-  /* Center items horizontally */
-
-  z-index: 1;
-}
-
-.instructions {
-  position: absolute;
-  bottom: 20px;
-  left: 10px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
- 
-  align-items: center;
-  
-  justify-content: center;
- 
-  
-}
-
-.enterBuilding{
-  position: absolute;
-  bottom: 80px;
-  right: 40px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
- 
-  align-items: center;
-  
-  justify-content: center;
- 
-  
-
+  z-index: 10;
 }
 
 .GoButton {
-  position: absolute;
   bottom: 10px;
   right: 70px;
-  background-color: #007C41;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 30px;
-  /* Rounded corners */
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  /* For icon and text alignment */
-  align-items: center;
-  /* Center items vertically */
-  justify-content: center;
-  /* Center items horizontally */
-  /* Space between icon and text */
+  z-index: 10;
 }
 
+.instructions {
+  bottom: 10px;
+  left: 5px;
+  z-index: 0;
+}
 
-
-
+.enterBuilding {
+  bottom: 50px;
+  right: 40px;
+  z-index: 10;
+}
 
 @media (max-width: 600px) {
+  .LocationBtn, .GoButton, .instructions, .enterBuilding {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
   .LocationBtn {
     right: 10px;
-    /* Closer to the edge on smaller screens */
     bottom: 10px;
-    font-size: large;
-    padding: 15px;
-    /* Slightly smaller padding */
-    font-size: 14px;
-    /* Smaller font size */
-    /* Less gap between icon and text */
   }
 }
 
-#map {
+/* Map wrapper to ensure map sits below all other content */
+.map-wrapper {
   position: absolute;
-  top: 60px;
+  top: 0;
   bottom: 0;
   width: 100%;
-  z-index: -1;
+  height: 100%;
+  z-index: -1; /* Map stays beneath the buttons */
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 </style>
+
