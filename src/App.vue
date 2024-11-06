@@ -28,7 +28,7 @@ export default {
 
 #app {
   font-family: Arial, sans-serif;
-  height: 100vh; /* Full viewport height */
+  height: 95vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
 }
@@ -44,7 +44,7 @@ export default {
   color: rgb(238, 238, 238);
   text-decoration: none;
   font-weight: bold;
-  padding: 5px 10px;
+  padding: 5px 
 }
 
 .content-wrapper {
