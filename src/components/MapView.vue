@@ -6,15 +6,14 @@
     <indoorPopup />
     <button class="LocationBtn" @click="getCurrentLocation">📍</button>
     <button class="GoButton" @click="GoFunction"> Go! </button>
-    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Instructions </button>
+    <button class="instructions" v-if="btnShow" @click="toggleFullInstructions"> ⓘ Show Full Instructions </button>
     <button class="enterBuilding" @click="ToggleEnterBuilding"> 🚪 </button>
     <directionscard @click="ToggleEnterBuilding"  v-if = "showIndoorCard"  :indoorSteps="this.indoorSteps" />
     <guide-card v-if="showGuide" :guide_arr="displayedSteps" />
+    <button class="ARButton" @click="toggleAR"> Toggle AR </button>
+    <ARComp :showAr="this.showAR" :modelUrl="this.modelUrl"></ARComp>
    
-   
-    <div class="map-wrapper">
-    <div id="map"></div>
-  </div>
+    <div id="map" />
 
   </div>
 </template>
@@ -31,8 +30,7 @@ import * as THREE from 'three';
 import directionscard from './directions-card.vue'
 import indoorPopup from './IndoorPopUp.vue'
 import GuideCard from './guide-card.vue';
-
-
+import ARComp from './ARComp.vue';
 
 
 
@@ -47,8 +45,7 @@ export default {
     directionscard,
     indoorPopup,
     GuideCard,
-    
-   
+    ARComp,
     
 
   },
@@ -63,7 +60,8 @@ export default {
       showIndoorCard: false,
       showGuide: false,
       showAR: false,
-     
+      modelUrl: './3dmodels/Athabasca+Hall.glb'
+
     }
   },
 
@@ -107,8 +105,7 @@ export default {
 
   methods: {
     toggleAR(){
-      this.showAR = !this.showAR;
-      console.log('AR toggled');
+      this.showAR = !this.shoowAR;
     },
     GoFunction() {
       document.getElementById('indoorPopup').style.display = 'block';
@@ -318,9 +315,9 @@ export default {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v12',
         center: [-113.5250, 53.5262],
-        zoom: 17.5,
-        pitch: 50,
-        bearing: -40,
+        zoom: 18.5,
+        pitch: 70,
+        bearing: -90,
         antialias: true
 
       });
@@ -352,7 +349,7 @@ export default {
 
             const scale = 1;
             const options = {
-              obj: './3dmodels/Athabasca+Hall.glb',
+              obj: '/3dmodels/Athabasca+Hall.glb',
 
               type: 'glb',
               scale: { x: scale * 1.5, y: scale * 1.5, z: scale },
@@ -360,7 +357,7 @@ export default {
               rotation: { x: 90, y: -178, z: 0 },
               defaultLights: false,
 
-            };  
+            };
 
             tb.loadObj(options, (model) => {
               model.setCoords([-113.5268, 53.5263777]);
@@ -594,87 +591,147 @@ export default {
 </script>
 
 <style scoped>
-/* Hover style applied to all buttons */
-.LocationBtn:hover,
-.GoButton:hover,
-.instructions:hover,
-.enterBuilding:hover {
-  background-color: #00c853;
-  color: white;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px); /* Slight lift effect */
-  transition: all 0.3s ease;
+.GoButton:hover .LocationBtn:hover {
+  background-color: #fffb00;
+  /* Darker green on hover */
+  color: black;
 }
 
-.LocationBtn,
-.GoButton,
-.instructions,
-.enterBuilding {
-  position: absolute;
-  background: linear-gradient(145deg, #008b40, #00692f); /* Modern gradient */
-  color: white;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-}
 
 .LocationBtn {
+  position: absolute;
   bottom: 20px;
   right: 20px;
-  z-index: 10;
-}
+  background-color: #007C41;
+  color: white;
+  font-size: larger;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 30px;
+  /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  /* For icon and text alignment */
+  align-items: center;
+  /* Center items vertically */
+  justify-content: center;
+  /* Center items horizontally */
 
-.GoButton {
-  bottom: 10px;
-  right: 70px;
-  z-index: 10;
+  z-index: 1;
 }
 
 .instructions {
-  bottom: 10px;
-  left: 5px;
-  z-index: 0;
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  background-color: #007C41;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 30px;
+  
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+ 
+  align-items: center;
+  
+  justify-content: center;
+ 
+  
 }
 
-.enterBuilding {
-  bottom: 50px;
+.enterBuilding{
+  position: absolute;
+  bottom: 80px;
   right: 40px;
-  z-index: 10;
+  background-color: #007C41;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 30px;
+  
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+ 
+  align-items: center;
+  
+  justify-content: center;
+ 
+  
+
 }
+.ARButton {
+  position: absolute;
+  bottom: 300px;
+  right: 70px;
+  background-color: #007C41;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 30px;
+  /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  /* For icon and text alignment */
+  align-items: center;
+  /* Center items vertically */
+  justify-content: center;
+  /* Center items horizontally */
+  /* Space between icon and text */
+}
+.GoButton {
+  position: absolute;
+  bottom: 10px;
+  right: 70px;
+  background-color: #007C41;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 30px;
+  /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  /* For icon and text alignment */
+  align-items: center;
+  /* Center items vertically */
+  justify-content: center;
+  /* Center items horizontally */
+  /* Space between icon and text */
+}
+
+
+
+
 
 @media (max-width: 600px) {
-  .LocationBtn, .GoButton, .instructions, .enterBuilding {
-    padding: 10px 15px;
-    font-size: 13px;
-  }
   .LocationBtn {
     right: 10px;
+    /* Closer to the edge on smaller screens */
     bottom: 10px;
+    font-size: large;
+    padding: 15px;
+    /* Slightly smaller padding */
+    font-size: 14px;
+    /* Smaller font size */
+    /* Less gap between icon and text */
   }
-}
-
-/* Map wrapper to ensure map sits below all other content */
-.map-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* Map stays beneath the buttons */
 }
 
 #map {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
   width: 100%;
-  height: 100%;
-  z-index: 1;
+  z-index: -99;
 }
 </style>
-
